@@ -3,6 +3,7 @@ import csv
 import pandas as pd
 import re
 
+
 usage = '''
 
     Store Finder CLI.
@@ -18,24 +19,32 @@ usage = '''
 args = docopt(usage)
 
 
-if args['--zip']:
-    zip = args['--zip']
-    units = args['--units']
-    output = args['--output']
-
+def find_by_zip(zip, units, output):
     matching_stores = []
-
     # read csv file
-    df = pd.read_csv("store-locations.csv")
+    stores = pd.read_csv("store-locations.csv")
 
     # loop over csv file, return row(s) with matching zip code
-    for index, row in df.iterrows():
+    for index, row in stores.iterrows():
         if row["Zip Code"]:
             split_zip = row['Zip Code'].replace('-', ' ').split(' ')
             if split_zip[0] == zip:  # write else to return the closest match
                 matching_stores.append(row)
 
-    print(matching_stores)
+    return matching_stores
+
+
+if args['--zip']:
+    zip = args['--zip']
+    units = args['--units']
+    return_output = args['--output']
+
+    find_matching_store = find_by_zip(zip, units, return_output)
+
+    if len(find_matching_store) > 0:
+        print(find_matching_store)
+    else:
+        print('not found')
 
 if args['--address']:
     store = args['--address']
