@@ -38,7 +38,7 @@ def find_by_zip(zip, units, output):
     return matching_stores
 
 
-def find_nearest_store(zip, units='mi', output='json'):
+def find_nearest_store(zip, units, output):
     search = SearchEngine(simple_zipcode=True)
     input_zip_code_info = search.by_zipcode(zip)
     zip_lat = input_zip_code_info.lat
@@ -59,7 +59,7 @@ def find_nearest_store(zip, units='mi', output='json'):
     return sorted_list[0]
 
 
-def find_by_address(address, units='mi', output='json'):
+def find_by_address(address, units, output):
     # read csv file
     stores = pd.read_csv("store-locations.csv")
     location = geolocator.geocode(address)
@@ -83,8 +83,8 @@ def find_by_address(address, units='mi', output='json'):
 
 if args['--zip']:
     zip = args['--zip']
-    units = args['--units']
-    return_output = args['--output']
+    units = args['--units'] or 'mi'
+    return_output = args['--output'] or 'json'
 
     find_matching_store = find_by_zip(zip, units, return_output)
 
@@ -95,7 +95,7 @@ if args['--zip']:
 
 if args['--address']:
     address = args['--address']
-    units = args['--units']
-    return_output = args['--output']
+    units = args['--units'] or 'mi'
+    return_output = args['--output'] or 'json'
 
     print(find_by_address(address, units, return_output))
