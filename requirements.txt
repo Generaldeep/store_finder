@@ -1,2 +1,5 @@
 docopt
 pandas
+uszipcode
+haversine
+geopy

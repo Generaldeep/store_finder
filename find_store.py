@@ -4,6 +4,7 @@ import pandas as pd
 import re
 from uszipcode import SearchEngine
 from haversine import haversine, Unit
+from geopy.geocoders import Nominatim
 
 
 usage = '''
@@ -19,6 +20,7 @@ usage = '''
 
 
 args = docopt(usage)
+geolocator = Nominatim(user_agent="http")
 
 
 def find_by_zip(zip, units, output):
@@ -36,7 +38,7 @@ def find_by_zip(zip, units, output):
     return matching_stores
 
 
-def find_nearest_store(zip, unit, output):
+def find_nearest_store(zip, units='mi', output='json'):
     search = SearchEngine(simple_zipcode=True)
     input_zip_code_info = search.by_zipcode(zip)
     zip_lat = input_zip_code_info.lat
@@ -49,9 +51,30 @@ def find_nearest_store(zip, unit, output):
 
     # loop over rows and find distance to all stores
     for index, row in stores.iterrows():
-        test = row
         distance = haversine((zip_lat, zip_long),
-                             (row['Latitude'], row['Longitude']), unit=unit)
+                             (row['Latitude'], row['Longitude']), unit=units)
+        distance_to_stores.append({"dist": distance, "key": index, "row": row})
+
+    sorted_list = sorted(distance_to_stores, key=lambda k: k['dist'])
+    return sorted_list[0]
+
+
+def find_by_address(address, units='mi', output='json'):
+    # read csv file
+    stores = pd.read_csv("store-locations.csv")
+    location = geolocator.geocode(address)
+    latitude = location.latitude
+    longitude = location.longitude
+
+    distance_to_stores = []
+
+    # read csv file
+    stores = pd.read_csv("store-locations.csv")
+
+    # loop over rows and find distance to all stores
+    for index, row in stores.iterrows():
+        distance = haversine((latitude, longitude),
+                             (row['Latitude'], row['Longitude']), unit=units)
         distance_to_stores.append({"dist": distance, "key": index, "row": row})
 
     sorted_list = sorted(distance_to_stores, key=lambda k: k['dist'])
@@ -71,6 +94,8 @@ if args['--zip']:
         print(find_nearest_store(zip, units, return_output))
 
 if args['--address']:
-    store = args['--address']
+    address = args['--address']
     units = args['--units']
-    output = args['--output']
+    return_output = args['--output']
+
+    print(find_by_address(address, units, return_output))
