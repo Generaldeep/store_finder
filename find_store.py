@@ -23,7 +23,7 @@ args = docopt(usage)
 geolocator = Nominatim(user_agent="http")
 
 
-def find_nearest_store(zip, units, output):
+def find_by_zip(zip, units, output):
     search = SearchEngine(simple_zipcode=True)
     input_zip_code_info = search.by_zipcode(zip)
     zip_lat = input_zip_code_info.lat
@@ -71,7 +71,7 @@ if args['--zip']:
     units = args['--units'] or 'mi'
     return_output = args['--output'] or 'json'
 
-    print(find_nearest_store(zip, units, return_output))
+    print(find_by_zip(zip, units, return_output))
 
 
 if args['--address']:
