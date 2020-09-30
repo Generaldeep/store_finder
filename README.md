@@ -6,10 +6,10 @@
   - **find_distance_to_stores** reads csv file, sort the stores in the csv and returns the closest store to the provided zip or adress
 
 # Requirments.txt file
-- I am using **docopt**, **pandas**, **uszipcode**, **haversinegeopy**. Please run **Pip install** after cloning the repo. 
+- I am using **docopt**, **pandas**, **uszipcode**, **haversinegeopy**. Please run **Pip install** after cloning the repo in order to install required libraries. 
 
 # Testing and Running Functions
-- To test please run **python3 test_find_store.py** 
-- To test a zip please run **python3 find_store.py  --zip=95670 --units=km**
-- To test an address please run **python3 find_store.py  --address="1122 14th, oakland" --units="km"**
+- To run test (in test_find_stores.py) please run **python3 test_find_store.py** 
+- To find a store by zip, in the command line please run **python3 find_store.py  --zip=95670 --units=km**
+- To find a store by an address, in the command line please run **python3 find_store.py  --address="1122 14th, oakland" --units="km"**
 - Expected result **{'dist': 2.7137721756187703, 'key': 1758, 'Address': '2700 Fifth Street'}** 
