@@ -27,6 +27,8 @@ class FindByZipTest(unittest.TestCase):
                       'key': 1619, 'Address': '10881 Olson Dr'}
         self.assertEqual(result, valid_find)
 
+
+class FindByAddress(unittest.TestCase):
     def test_address_json(self):
         result = find_by_address('1122 14th, oakland', 'mi', 'json')
         valid_find = """{"dist": 1.6862598515806686, "key": 1758, "Address": "2700 Fifth Street"}"""

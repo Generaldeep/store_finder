@@ -9,7 +9,8 @@
 - I am using **docopt**, **pandas**, **uszipcode**, **haversinegeopy**. Please run **Pip install** after cloning the repo in order to install required libraries. 
 
 # Testing and Running Functions
-- To run test (in test_find_stores.py) please run **python3 test_find_store.py** 
-- To find a store by zip, in the command line please run **python3 find_store.py  --zip=95670 --units=km**
-- To find a store by an address, in the command line please run **python3 find_store.py  --address="1122 14th, oakland" --units="km"**
+- To run tests (in test_find_stores.py) please run **python3 test_find_store.py** 
+- To find a store near a zip, in the command line please run **python3 find_store.py  --zip=95670 --units=km**
+- To find a store near an address, in the command line please run **python3 find_store.py  --address="1122 14th, oakland" --units="km"**
 - Expected result **{'dist': 2.7137721756187703, 'key': 1758, 'Address': '2700 Fifth Street'}** 
+- In this example, kilometers are return, you can specify **--units="mi"** to return miles are distance
