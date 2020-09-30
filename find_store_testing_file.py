@@ -1,26 +1,12 @@
-from docopt import docopt
 import csv
 import json
 import pandas as pd
 from uszipcode import SearchEngine
 from haversine import haversine, Unit
+import pandas as pd
+from haversine import haversine, Unit
 from geopy.geocoders import Nominatim
 from error_handler import UnAcceptedValueError
-
-
-usage = '''
-
-    Store Finder CLI.
-
-    Usage:
-        find_store --address="<address>"
-        find_store --address="<address>" [--units=(mi|km)] [--output=text|json]
-        find_store --zip=<zip>
-        find_store --zip=<zip> [--units=(mi|km)] [--output=text|json]
-'''
-
-
-args = docopt(usage)
 
 
 def find_by_zip(zip, units, output):
@@ -87,21 +73,3 @@ def find_distance_to_stores(latitude, longitude, units, output):
 
     except Exception as ex:
         return ex
-
-
-if args['--zip']:
-    zip = args['--zip']
-    units = args['--units'] or 'mi'
-    return_output = args['--output'] or 'text'
-
-    find = find_by_zip(zip, units, return_output)
-    print(find)
-
-
-if args['--address']:
-    address = args['--address']
-    units = args['--units'] or 'mi'
-    return_output = args['--output'] or 'text'
-
-    find = find_by_address(address, units, return_output)
-    print(find)
